@@ -2,6 +2,8 @@ package processing;
 
 import java.util.Scanner;
 
+import graphics.Panel;
+
 public class TicTacToe {
 
 	private static Board board;
@@ -73,7 +75,7 @@ public class TicTacToe {
 		}
 	}
 
-	public static void main(String[] args) {
+	public TicTacToe(Panel panel) {
 		board = new Board();
 
 		System.out.println("Do you want the normal X and O signs? (y/n)");
