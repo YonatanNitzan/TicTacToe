@@ -4,24 +4,41 @@ import java.util.Scanner;
 
 import graphics.Panel;
 
-public class TicTacToe {
+public class Main {
 
-	private static Board board;
-	public static int turns = 1;
-	private static char currentSign = 'O';
-	private static char sign1 = 'X', sign2 = 'O';
+	// TODO: Connect main and JPanel
+	
+	private Panel panel;
+	private Board board;
+	public int turns = 1;
+	private final char SIGN1 = 'X', SIGN2 = 'O';
+	private char currentSign = SIGN2;
 
 	private static Scanner in = new Scanner(System.in);
+
+	public Main(Panel p, Board b) {
+		panel = p;
+		board = b;
+			
+		System.out.println("Enter preffered game mode: "
+				+ "(1 - PVP/2 - PVC)");
+		if (in.nextInt() == 1)
+			PVP();
+		else
+			PVC();
+
+		endGame();
+	}
 
 	/**
 	 * Player versus Player game mode
 	 */
-	public static void PVP() {
+	private void PVP() {
 		while (true) {
-			if (currentSign == sign1)
-				currentSign = sign2;
+			if (currentSign == SIGN1)
+				currentSign = SIGN2;
 			else
-				currentSign = sign1;
+				currentSign = SIGN1;
 
 			System.out.println("<---------------------------->");
 			System.out.println("turn " + turns);
@@ -45,14 +62,14 @@ public class TicTacToe {
 	/**
 	 * Player versus Computer game mode
 	 */
-	public static void PVC() {
-		Computer computer = new Computer(sign1, sign2, board);
+	private void PVC() {
+		Computer computer = new Computer(SIGN1, SIGN2, board);
 		
 		while (true) {
-			if (currentSign == sign1)
-				currentSign = sign2;
+			if (currentSign == SIGN1)
+				currentSign = SIGN2;
 			else
-				currentSign = sign1;
+				currentSign = SIGN1;
 
 			System.out.println("<---------------------------->");
 			System.out.println("turn " + turns);
@@ -60,7 +77,7 @@ public class TicTacToe {
 			System.out.println("Enter row and column number");
 			board.printBoard();
 
-			if (currentSign == sign1)
+			if (currentSign == SIGN1)
 				board.putSign(in.nextInt() - 1, in.nextInt() - 1, currentSign);
 			else
 				computer.turn();
@@ -75,25 +92,7 @@ public class TicTacToe {
 		}
 	}
 
-	public TicTacToe(Panel panel) {
-		board = new Board();
-
-		System.out.println("Do you want the normal X and O signs? (y/n)");
-		
-		if (in.next().charAt(0) == 'n') {
-			System.out.print("Enter the first sign: ");
-			sign1 = in.next().charAt(0);
-			System.out.print("Enter the second sign: ");
-			sign2 = in.next().charAt(0);
-		}
-			
-		System.out.println("Enter preffered game mode: "
-				+ "(1 - PVP/2 - PVC)");
-		if (in.nextInt() == 1)
-			PVP();
-		else
-			PVC();
-
+	private void endGame() {
 		System.out.println("");
 		board.printBoard();
 		System.out.println("");

@@ -2,16 +2,23 @@ package processing;
 
 import java.util.Scanner;
 
+import graphics.Panel;
+
 public class Board {
 
 	private static Scanner in = new Scanner(System.in);
 
+	private Panel panel;
 	public char[][] board = new char[3][3];
 
 	/**
 	 * Constructor creates an empty board.
+	 * 
+	 * @param panel
+	 *            - Game panel
 	 */
-	public Board() {
+	public Board(Panel p) {
+		panel = p;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++)
 				board[i][j] = '-';
@@ -89,11 +96,11 @@ public class Board {
 
 		// Test for column win
 		for (int i = 0; i < 3; i++) {
-			test = 0; 
+			test = 0;
 			for (int j = 0; j < 3; j++)
 				test += board[i][j];
 
-			if (test/3 == sign)
+			if (test / 3 == sign)
 				return true;
 		}
 
@@ -103,7 +110,7 @@ public class Board {
 			for (int j = 0; j < 3; j++)
 				test += board[j][i];
 
-			if (test/3 == sign)
+			if (test / 3 == sign)
 				return true;
 		}
 
@@ -112,7 +119,7 @@ public class Board {
 		for (int i = 0; i < 3; i++)
 			test += board[i][i];
 
-		if (test/3 == sign)
+		if (test / 3 == sign)
 			return true;
 
 		// Test for diagonal win (right to left)
@@ -120,7 +127,7 @@ public class Board {
 		for (int i = 0; i < 3; i++)
 			test += board[i][2 - i];
 
-		if (test/3 == sign)
+		if (test / 3 == sign)
 			return true;
 
 		// No win situation

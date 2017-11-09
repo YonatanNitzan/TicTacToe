@@ -8,13 +8,18 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import processing.Board;
+import processing.Main;
+
 @SuppressWarnings("serial")
 public class Panel extends JPanel {
 
-	private Rectangle[][] grid = new Rectangle[3][3];
-	private int square; // squares' dimensions
+	private GridPiece[][] grid = new GridPiece[3][3];
+	private int side; // squares' dimensions
 	private Frame frame;
-	
+	private Board board;
+	private Main game;
+
 	/**
 	 * Initiates the 3x3 grid.
 	 * 
@@ -25,13 +30,16 @@ public class Panel extends JPanel {
 	 */
 	public Panel(Frame frame, int d) {
 		this.frame = frame;
-		square = d / 3;
-		
+		side = d / 3;
+
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				grid[i][j] = new Rectangle(j * square, i * square,
-						square, square);
-		
+				grid[i][j] = new GridPiece(new Rectangle(
+						j * side, i * side, side, side));
+
+		// board = new Board(this);
+		// game = new TicTacToe(this, board);
+
 		setMouse();
 	}
 
@@ -45,17 +53,18 @@ public class Panel extends JPanel {
 
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				g2.draw(grid[i][j]);
+				grid[i][j].draw(g2);
 	}
-	
+
 	/**
 	 * Returns the frame the panel is working on.
+	 * 
 	 * @return JFrame
 	 */
 	public Frame getFrame() {
 		return frame;
 	}
-	
+
 	/**
 	 * Sets up mouse listener to know which rectangle is clicked.
 	 */
@@ -64,14 +73,16 @@ public class Panel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent me) { // When the mouse is clicked
 				super.mouseClicked(me);
-				
+
 				for (int i = 0; i < 3; i++) {
 					for (int j = 0; j < 3; j++) {
 						if (grid[i][j].contains(me.getPoint())) { // Checks if a square is clicked
-	
+
 							// Prints the number of the clicked square
 							System.out.printf("Clicked rectangle (%d, %d)\n", i, j);
 							// Squares numbered 0-8 from left to right and up to down
+
+							grid[i][j].setPlayer('X');
 							
 							repaint();
 						}
