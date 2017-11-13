@@ -27,14 +27,13 @@ public class MainOp {
 	 */
 	private void PVP() {
 			panel.updateBoard(board.getBoard());
-
+			
 			if (board.checkBoard(currentSign))
 				endGame();
-
-			turns++;
-
-			if (turns > 9)
+			else if (turns == 9)
 				endGame();
+			else
+				turns++;
 			
 			if (currentSign == SIGN1)
 				currentSign = SIGN2;
@@ -87,7 +86,7 @@ public class MainOp {
 		running = false;
 		panel.updateBoard(board.getBoard());
 
-		if (turns > 9)
+		if (turns == 9)
 			System.out.println("TIE");
 		else
 			System.out.println(currentSign + " WON");
@@ -96,9 +95,7 @@ public class MainOp {
 	public void input(int r, int c) {
 		if (running) {
 			board.putSign(r, c, currentSign);
-		
-			System.out.printf("Turn: %d \nPlayer: %s \n", turns, currentSign);
-			
+
 			run();
 
 			panel.updateBoard(board.getBoard());
