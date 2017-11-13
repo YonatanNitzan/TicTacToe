@@ -4,59 +4,43 @@ import java.util.Scanner;
 
 import graphics.Panel;
 
-public class Main {
-
-	// TODO: Connect main and JPanel
+public class MainOp {
 	
 	private Panel panel;
 	private Board board;
+	private boolean computerOp = false, running = true;
 	public int turns = 1;
 	private final char SIGN1 = 'X', SIGN2 = 'O';
-	private char currentSign = SIGN2;
+	private char currentSign = SIGN1;
 
 	private static Scanner in = new Scanner(System.in);
 
-	public Main(Panel p, Board b) {
+	public MainOp(Panel p) {
 		panel = p;
-		board = b;
-			
-		System.out.println("Enter preffered game mode: "
-				+ "(1 - PVP/2 - PVC)");
-		if (in.nextInt() == 1)
-			PVP();
-		else
-			PVC();
-
-		endGame();
+		board = new Board();
+		
+		in.close();
 	}
 
 	/**
 	 * Player versus Player game mode
 	 */
 	private void PVP() {
-		while (true) {
+			panel.updateBoard(board.getBoard());
+
+			if (board.checkBoard(currentSign))
+				endGame();
+
+			turns++;
+
+			if (turns > 9)
+				endGame();
+			
 			if (currentSign == SIGN1)
 				currentSign = SIGN2;
 			else
 				currentSign = SIGN1;
 
-			System.out.println("<---------------------------->");
-			System.out.println("turn " + turns);
-			System.out.println(currentSign + "'s turn");
-			System.out.println("");
-			System.out.println("Enter row and column number");
-			board.printBoard();
-
-			board.putSign(in.nextInt() - 1, in.nextInt() - 1, currentSign);
-
-			if (board.checkBoard(currentSign))
-				break;
-
-			turns++;
-
-			if (turns > 9)
-				break;
-		}
 	}
 
 	/**
@@ -71,15 +55,15 @@ public class Main {
 			else
 				currentSign = SIGN1;
 
+			/*
 			System.out.println("<---------------------------->");
 			System.out.println("turn " + turns);
 			System.out.println(currentSign + "'s turn \n");
 			System.out.println("Enter row and column number");
-			board.printBoard();
+			panel.updateBoard(board.getBoard());
+			*/
 
-			if (currentSign == SIGN1)
-				board.putSign(in.nextInt() - 1, in.nextInt() - 1, currentSign);
-			else
+			if (currentSign == SIGN2)
 				computer.turn();
 
 			if (board.checkBoard(currentSign))
@@ -91,15 +75,33 @@ public class Main {
 				break;
 		}
 	}
+	
+	private void run() {
+		if (computerOp)
+			PVC();
+		else
+			PVP();
+	}
 
 	private void endGame() {
-		System.out.println("");
-		board.printBoard();
-		System.out.println("");
+		running = false;
+		panel.updateBoard(board.getBoard());
 
 		if (turns > 9)
 			System.out.println("TIE");
 		else
 			System.out.println(currentSign + " WON");
+	}
+
+	public void input(int r, int c) {
+		if (running) {
+			board.putSign(r, c, currentSign);
+		
+			System.out.printf("Turn: %d \nPlayer: %s \n", turns, currentSign);
+			
+			run();
+
+			panel.updateBoard(board.getBoard());
+		}
 	}
 }

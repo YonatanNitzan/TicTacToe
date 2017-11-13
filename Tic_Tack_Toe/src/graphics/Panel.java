@@ -8,8 +8,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import processing.Board;
-import processing.Main;
+import processing.MainOp;
 
 @SuppressWarnings("serial")
 public class Panel extends JPanel {
@@ -17,8 +16,7 @@ public class Panel extends JPanel {
 	private GridPiece[][] grid = new GridPiece[3][3];
 	private int side; // squares' dimensions
 	private Frame frame;
-	private Board board;
-	private Main game;
+	private MainOp game;
 
 	/**
 	 * Initiates the 3x3 grid.
@@ -34,11 +32,9 @@ public class Panel extends JPanel {
 
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				grid[i][j] = new GridPiece(new Rectangle(
-						j * side, i * side, side, side));
+				grid[i][j] = new GridPiece(new Rectangle(j * side, i * side, side, side));
 
-		// board = new Board(this);
-		// game = new TicTacToe(this, board);
+		game = new MainOp(this);
 
 		setMouse();
 	}
@@ -82,13 +78,19 @@ public class Panel extends JPanel {
 							System.out.printf("Clicked rectangle (%d, %d)\n", i, j);
 							// Squares numbered 0-8 from left to right and up to down
 
-							grid[i][j].setPlayer('X');
-							
+							game.input(i, j);
+
 							repaint();
 						}
 					}
 				}
 			}
 		});
+	}
+
+	public void updateBoard(char[][] charBoard) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				grid[i][j].setPlayer(charBoard[i][j]);
 	}
 }

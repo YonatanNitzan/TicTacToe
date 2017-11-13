@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
+	
+	// TODO: Add buttons for PVP/PVC.
+	// TODO: Add a panel to show turn, who's turn, and the likes.
 
 	private final static int WIDTH = 600, HEIGHT = 600; // Dimensions
 	private final static int X_MARGIN = 20, Y_MARGIN = 50; // Panel offsets

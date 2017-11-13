@@ -2,13 +2,15 @@ package processing;
 
 import java.util.Scanner;
 
-import graphics.Panel;
-
+/**
+ * 
+ * @author Ofri "Oftzik" Marxs
+ *
+ */
 public class Board {
 
 	private static Scanner in = new Scanner(System.in);
 
-	private Panel panel;
 	public char[][] board = new char[3][3];
 
 	/**
@@ -17,8 +19,7 @@ public class Board {
 	 * @param panel
 	 *            - Game panel
 	 */
-	public Board(Panel p) {
-		panel = p;
+	public Board() {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++)
 				board[i][j] = '-';
@@ -50,6 +51,10 @@ public class Board {
 
 			System.out.println("");
 		}
+	}
+
+	public char[][] getBoard() {
+		return board;
 	}
 
 	/**
