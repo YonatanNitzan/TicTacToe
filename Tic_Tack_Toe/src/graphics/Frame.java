@@ -23,7 +23,7 @@ public class Frame extends JFrame {
 		setTitle("Tic Tac Toe!");
 		setResizable(true);
 		setMinimumSize(new Dimension(WIDTH + X_MARGIN, HEIGHT + Y_MARGIN)); // Sets the size of the frame
-		setVisible(true);
+		setVisible(false);
 
 		// Ends program on close
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,8 +31,17 @@ public class Frame extends JFrame {
 		/* Adds panel */
 		panel = new Panel(this, WIDTH);
 		add(panel);
-
+		
 		validate();
 		pack();
+	}
+	
+	public void reOpen () {
+		// TODO: Make this function set the frame to the foreground
+		this.setVisible(true);
+		this.setAlwaysOnTop(true);
+		this.toFront();
+		this.requestFocus();
+		//this.setAlwaysOnTop(false);
 	}
 }

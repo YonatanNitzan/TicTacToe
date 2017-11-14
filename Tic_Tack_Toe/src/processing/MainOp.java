@@ -2,6 +2,8 @@ package processing;
 
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import graphics.Panel;
 
 public class MainOp {
@@ -29,6 +31,8 @@ public class MainOp {
 			computerOp = true;
 
 		running = true;
+		
+		panel.getFrame().reOpen();
 
 		in.close();
 	}
@@ -42,42 +46,47 @@ public class MainOp {
 	 *            - Column
 	 */
 	private void playerTurn(int r, int c) {
-		panel.updateBoard(board.getBoard());
-
-		board.putSign(r, c, currentSign);
-
-		if (board.checkBoard(currentSign))
-			endGame();
-		else if (turns == 9)
-			endGame();
-		else
-			nextTurn();
-
+		if (board.putSign(r, c, currentSign)) {
+			
+			panel.updateBoard(board.getBoard());
+			
+			if (board.checkBoard(currentSign))
+				endGame();
+			else if (turns == 9)
+				endGame();
+			else
+				nextTurn();
+		}
 	}
 
 	/**
 	 * Generate computer action
 	 */
 	private void computerTurn() {
-		if (currentSign == SIGN2)
+		// TODO: Add a delay before the computer's action.
+		if (currentSign == SIGN2) {
 			comp.turn();
-
-		if (board.checkBoard(currentSign))
-			endGame();
-		else if (turns == 9)
-			endGame();
-		else
-			nextTurn();
+	
+			panel.updateBoard(board.getBoard());
+			
+			if (board.checkBoard(currentSign))
+				endGame();
+			else
+				nextTurn();
+		}
 	}
 
 	private void endGame() {
 		running = false;
-		panel.updateBoard(board.getBoard());
 
 		if (turns == 9)
-			System.out.println("TIE");
+			JOptionPane.showMessageDialog(panel,
+					"TIE",
+					"Game over!", JOptionPane.WARNING_MESSAGE);
 		else
-			System.out.println(currentSign + " WON");
+			JOptionPane.showMessageDialog(panel,
+					currentSign + " WON",
+					"Game over!", JOptionPane.WARNING_MESSAGE);
 	}
 	
 	private void nextTurn() {
@@ -91,6 +100,7 @@ public class MainOp {
 
 	public void input(int r, int c) {
 		if (running) {
+			
 			playerTurn(r, c);
 			
 			if (computerOp)

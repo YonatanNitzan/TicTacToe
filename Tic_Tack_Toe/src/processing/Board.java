@@ -1,16 +1,11 @@
 package processing;
 
-import java.util.Scanner;
-
 /**
  * 
  * @author Ofri "Oftzik" Marxs
  *
  */
 public class Board {
-
-	private static Scanner in = new Scanner(System.in);
-
 	public char[][] board = new char[3][3];
 
 	/**
@@ -41,18 +36,6 @@ public class Board {
 			return false;
 	}
 
-	/**
-	 * Prints the board.
-	 */
-	public void printBoard() {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++)
-				System.out.print(board[i][j] + " ");
-
-			System.out.println("");
-		}
-	}
-
 	public char[][] getBoard() {
 		return board;
 	}
@@ -67,15 +50,15 @@ public class Board {
 	 * @param sign
 	 *            - The sign to be inserted
 	 */
-	public void putSign(int r, int c, char sign) {
+	public boolean putSign(int r, int c, char sign) {
 		// Checks whether position is out of bounds or taken
-		while (!inRange(r, c) || !(board[r][c] == '-')) {
+		if (!inRange(r, c) || !(board[r][c] == '-')) {
 			System.out.println("Place taken or out of range. Enter a different location");
-			r = in.nextInt() - 1;
-			c = in.nextInt() - 1;
+			return false;
+		} else {
+			board[r][c] = sign; // Inserts the sign
+			return true;
 		}
-
-		board[r][c] = sign; // Inserts the sign
 	}
 
 	/**

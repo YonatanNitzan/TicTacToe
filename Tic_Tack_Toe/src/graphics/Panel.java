@@ -79,8 +79,6 @@ public class Panel extends JPanel {
 							// Squares numbered 0-8 from left to right and up to down
 
 							game.input(i, j);
-
-							repaint();
 						}
 					}
 				}
@@ -92,5 +90,7 @@ public class Panel extends JPanel {
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 				grid[i][j].setPlayer(charBoard[i][j]);
+		
+		repaint();
 	}
 }
