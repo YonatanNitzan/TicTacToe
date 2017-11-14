@@ -75,7 +75,7 @@ public class Panel extends JPanel {
 						if (grid[i][j].contains(me.getPoint())) { // Checks if a square is clicked
 
 							// Prints the number of the clicked square
-							System.out.printf("Clicked rectangle (%d, %d)\n", i, j);
+							System.out.printf("Clicked square (%d, %d)\n", i, j);
 							// Squares numbered 0-8 from left to right and up to down
 
 							game.input(i, j);

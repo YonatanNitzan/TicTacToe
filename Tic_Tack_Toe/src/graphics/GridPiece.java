@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 
 @SuppressWarnings("serial")
 public class GridPiece extends Rectangle {
+	
+	// TODO: Change player representation from colors to X and O.
 
 	// Colors for the players
 	private final Color P1 = Color.BLUE, P2 = Color.RED;
