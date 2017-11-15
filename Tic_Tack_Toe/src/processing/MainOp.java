@@ -32,7 +32,7 @@ public class MainOp {
 
 		running = true;
 		
-		panel.getFrame().reOpen();
+		panel.getFrame().sendToFront();
 
 		in.close();
 	}

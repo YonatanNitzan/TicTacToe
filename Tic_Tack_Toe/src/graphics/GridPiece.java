@@ -3,17 +3,23 @@ package graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 @SuppressWarnings("serial")
 public class GridPiece extends Rectangle {
-	
-	// TODO: Change player representation from colors to X and O.
 
+	// TODO: Fix delay in PVC.
+
+	private BufferedImage img;
 	// Colors for the players
-	private final Color P1 = Color.BLUE, P2 = Color.RED;
+	private final String P1 = "./images/BlueX.png";
+	private final String P2 = "./images/RedO.png";
 	// Outline color
 	private final Color OUTLINE = Color.BLACK;
-	Color c = OUTLINE;
 
 	/**
 	 * Sets the piece in the given bounds.
@@ -25,25 +31,21 @@ public class GridPiece extends Rectangle {
 	}
 
 	/**
-	 * Returns the color of the grid piece.
-	 * 
-	 * @return Color
-	 */
-	public Color getColor() {
-		return c;
-	}
-
-	/**
 	 * 
 	 * @param sign
+	 * @throws IOException 
 	 */
 	public void setPlayer(char sign) {
-		if (sign == 'X')
-			c = P1;
-		else if (sign == 'O')
-			c = P2;
-		else
-			c = OUTLINE;
+		try {
+			if (sign == 'X')
+				img = ImageIO.read(new File(P1));
+			else if (sign == 'O')
+				img = ImageIO.read(new File(P2));
+			else
+				img = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -53,10 +55,11 @@ public class GridPiece extends Rectangle {
 	 *            - Graphics2D
 	 */
 	public void draw(Graphics2D g) {
-		// Fills the grid piece with the players color.
-		if (c != OUTLINE) {
-			g.setColor(getColor());
-			g.fill(this);
+		// Fills the grid piece with the player's sign.
+		if (img != null) {
+			g.drawImage(img,
+					getBounds().x, getBounds().y,
+					getBounds().width, getBounds().width, null);
 		}
 
 		// Draws outline

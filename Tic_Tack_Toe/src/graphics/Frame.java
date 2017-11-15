@@ -36,12 +36,11 @@ public class Frame extends JFrame {
 		pack();
 	}
 	
-	public void reOpen () {
-		// TODO: Make this function set the frame to the foreground
+	public void sendToFront () {
 		this.setVisible(true);
 		this.setAlwaysOnTop(true);
 		this.toFront();
 		this.requestFocus();
-		//this.setAlwaysOnTop(false);
+		this.setAlwaysOnTop(false);
 	}
 }
