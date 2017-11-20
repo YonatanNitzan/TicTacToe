@@ -50,10 +50,8 @@ public class MainOp {
 			
 			panel.updateBoard(board.getBoard());
 			
-			if (board.checkBoard(currentSign))
-				endGame();
-			else if (turns == 9)
-				endGame();
+			if (board.checkBoard(currentSign) || turns == 9)
+				endGame(board.checkBoard(currentSign));
 			else
 				nextTurn();
 		}
@@ -70,22 +68,22 @@ public class MainOp {
 			panel.updateBoard(board.getBoard());
 			
 			if (board.checkBoard(currentSign))
-				endGame();
+				endGame(true);
 			else
 				nextTurn();
 		}
 	}
 
-	private void endGame() {
+	private void endGame(boolean win) {
 		running = false;
 
-		if (turns == 9)
+		if (win)
 			JOptionPane.showMessageDialog(panel,
-					"TIE",
+					currentSign + " WON",
 					"Game over!", JOptionPane.WARNING_MESSAGE);
 		else
 			JOptionPane.showMessageDialog(panel,
-					currentSign + " WON",
+					"TIE",
 					"Game over!", JOptionPane.WARNING_MESSAGE);
 	}
 	
