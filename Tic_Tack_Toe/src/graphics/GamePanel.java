@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -11,12 +12,12 @@ import javax.swing.JPanel;
 import processing.MainOp;
 
 @SuppressWarnings("serial")
-public class Panel extends JPanel {
+public class GamePanel extends JPanel {
 
 	private GridPiece[][] grid = new GridPiece[3][3];
-	private int side; // squares' dimensions
+	private final int SIDE = 200; // squares' dimensions
 	private Frame frame;
-	private MainOp game;
+	private MainOp op;
 
 	/**
 	 * Initiates the 3x3 grid.
@@ -26,15 +27,14 @@ public class Panel extends JPanel {
 	 * @param d
 	 *            - The dimension of the squares
 	 */
-	public Panel(Frame frame, int d) {
+	public GamePanel(Frame frame) {
 		this.frame = frame;
-		side = d / 3;
 
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
-				grid[i][j] = new GridPiece(new Rectangle(j * side, i * side, side, side));
+				grid[i][j] = new GridPiece(new Rectangle(j * SIDE, i * SIDE, SIDE, SIDE));
 
-		game = new MainOp(this);
+		op = new MainOp(this);
 
 		setMouse();
 	}
@@ -78,7 +78,7 @@ public class Panel extends JPanel {
 							System.out.printf("Clicked square (%d, %d)\n", i, j);
 							// Squares numbered 0-8 from left to right and up to down
 
-							game.input(i, j);
+							op.input(i, j);
 						}
 					}
 				}
@@ -91,6 +91,30 @@ public class Panel extends JPanel {
 			for (int j = 0; j < 3; j++)
 				grid[i][j].setPlayer(charBoard[i][j]);
 		
+		frame.getControlPanel().updateLabels(op.getSign(), op.getTurn(), op.isComputerOp());
+		
 		repaint();
+	}
+	
+	@Override
+	public int getWidth() {
+		return SIDE * 3 + 10;
+	}
+	
+	@Override
+	public int getHeight() {
+		return SIDE * 3 + 10;
+	}
+
+	public Dimension getDimensions() {
+		return new Dimension(getWidth(), getHeight());
+	}
+
+	public void reset() {
+		op.restart();
+	}
+
+	public void switchModes() {
+		op.switchModes();
 	}
 }

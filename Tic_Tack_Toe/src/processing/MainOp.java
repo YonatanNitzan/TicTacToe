@@ -1,40 +1,23 @@
 package processing;
 
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
 
-import graphics.Panel;
+import graphics.GamePanel;
 
 public class MainOp {
 
-	private Panel panel;
+	private GamePanel panel;
 	private Board board;
 	private Computer comp;
-	private boolean computerOp, running;
+	private boolean computerOp = false, running = true;
 	public int turns = 1;
 	private final char SIGN1 = 'X', SIGN2 = 'O';
 	private char currentSign = SIGN1;
 
-	private static Scanner in = new Scanner(System.in);
-
-	public MainOp(Panel p) {
+	public MainOp(GamePanel p) {
 		panel = p;
 		board = new Board();
 		comp = new Computer(SIGN1, SIGN2, board);
-
-		System.out.print("Pick mode: ");
-
-		if (in.nextInt() == 1)
-			computerOp = false;
-		else
-			computerOp = true;
-
-		running = true;
-		
-		panel.getFrame().sendToFront();
-
-		in.close();
 	}
 
 	/**
@@ -106,5 +89,36 @@ public class MainOp {
 
 			panel.updateBoard(board.getBoard());
 		}
+	}
+	
+	public void restart() {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				board.eraseSign(i, j);
+		
+		turns = 1;
+		currentSign = SIGN1;
+		running = true;
+		
+		panel.updateBoard(board.getBoard());
+	}
+
+	public boolean isComputerOp() {
+		return computerOp;
+	}
+
+	public int getTurn() {
+		return turns;
+	}
+
+	public char getSign() {
+		return currentSign;
+	}
+
+	public void switchModes() {
+		computerOp = !computerOp;
+		if (computerOp)
+			computerTurn();
+		panel.updateBoard(board.getBoard());
 	}
 }
